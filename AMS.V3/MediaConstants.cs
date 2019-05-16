@@ -1,0 +1,8 @@
+﻿namespace AMS.V3
+{
+    public static class MediaConstants
+    {
+        public static string DefaultTransformName = "DefaultTransform";
+        public static string DefaultDrmContentKeyPolicyName = "DefaultContentKeyPolicyVersion20190223";
+    }
+}

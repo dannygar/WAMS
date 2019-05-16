@@ -1,0 +1,18 @@
+{
+  "profiles": {
+    "Functions.Tests": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "AMSClientId": "6feb511e-98e6-4b55-b61b-b9b234620d6e",
+        "AMSClientSecret": "J9dHCwn+ywN1VV1UnaLISilPOfeyDlY2sLQ+59b58ME=",
+        "AMSRESTAPIEndpoint": "https://dannymedia.restv2.eastus.media.azure.net/api/",
+        "ResourceGroup": "ams-demos",
+        "MediaServicesStorageAccountKey": "B+ZiVSEXURWeDG6ee4eM99FccvDsYiWqg0io7n8DZg4OQE5TT2BaFTDFl/tsL6v0Ic/iYeDQmYBsjgf1sjCttw==",
+        "AMSAADTenantDomain": "microsoft.onmicrosoft.com",
+        "MediaAccountName": "dannymedia",
+        "SubscriptionId": "5f1608d7-888e-41d9-9a07-be4241a9b6c9",
+        "MediaServicesStorageAccountName": "dannymedia"
+      }
+    }
+  }
+}
