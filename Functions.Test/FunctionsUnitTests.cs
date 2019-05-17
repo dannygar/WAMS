@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using AMS.V2;
-using Data.Entities;
+﻿using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;

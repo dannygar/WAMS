@@ -199,8 +199,8 @@ namespace WAMS.Functions
             }
 
 
-            IJob job = null;
-            ITask taskEncoding = null;
+            //IJob job = null;
+            //ITask taskEncoding = null;
 
             int OutputMES = -1;
             int OutputMEPW = -1;
@@ -217,6 +217,9 @@ namespace WAMS.Functions
 
             MediaServicesCredentials amsCredentials = new MediaServicesCredentials();
             log.LogInformation($"Using Azure Media Service Rest API Endpoint : {amsCredentials.AmsRestApiEndpoint}");
+
+            //A job name
+            var jobname = (string)data.jobName ?? "Azure Functions Job";
 
             try
             {
@@ -323,10 +326,11 @@ namespace WAMS.Functions
                 //OutputMesThumbnails = JobHelpers.AddTask(execContext, _context, job, asset, (data.mesThumbnails != null) ? ((string)data.mesThumbnails.Start ?? "{Best}") : null, "Media Encoder Standard", "MesThumbnails.json", "{Best}", ref taskindex, specifiedStorageAccountName: JobHelpers.OutputStorageFromParam(data.mesThumbnails));
 
 
+
                 //Submit job
                 await _mus.TransformAsync(new MediaTransformContext()
                 {
-                    JobName = (string)data.jobName ?? "Azure Functions Job",
+                    JobName = jobname,
                     InputAssetName = asset.Name,
                     TransformedAssetName = asset.Name + " MES encoded",
                     TransformName = asset.Name + " Transform",
@@ -361,67 +365,67 @@ namespace WAMS.Functions
             //log.LogInformation("OutputMesThumbnailsId: " + JobHelpers.ReturnId(job, OutputMesThumbnails));
             //log.LogInformation("OutputAssetVideoAnnotationId: " + JobHelpers.ReturnId(job, OutputVideoAnnotation));
 
+            var job = await _mus.GetJob(jobname);
             return new OkObjectResult( new
             {
                 jobId = job.Id,
                 otherJobsQueue = NumberJobsQueue,
                 mes = new
                 {
-                    assetId = JobHelpers.ReturnId(job, OutputMES),
-                    taskId = JobHelpers.ReturnTaskId(job, OutputMES)
+                    assetId = data.assetId
                 },
-                mepw = new
-                {
-                    assetId = JobHelpers.ReturnId(job, OutputMEPW),
-                    taskId = JobHelpers.ReturnTaskId(job, OutputMEPW)
-                },
-                indexV1 = new
-                {
-                    assetId = JobHelpers.ReturnId(job, OutputIndex1),
-                    taskId = JobHelpers.ReturnTaskId(job, OutputIndex1),
-                    language = (string)data.indexV1Language
-                },
-                indexV2 = new
-                {
-                    assetId = JobHelpers.ReturnId(job, OutputIndex2),
-                    taskId = JobHelpers.ReturnTaskId(job, OutputIndex2),
-                    language = (string)data.indexV2Language
-                },
-                ocr = new
-                {
-                    assetId = JobHelpers.ReturnId(job, OutputOCR),
-                    taskId = JobHelpers.ReturnTaskId(job, OutputOCR)
-                },
-                faceDetection = new
-                {
-                    assetId = JobHelpers.ReturnId(job, OutputFaceDetection),
-                    taskId = JobHelpers.ReturnTaskId(job, OutputFaceDetection)
-                },
-                faceRedaction = new
-                {
-                    assetId = JobHelpers.ReturnId(job, OutputFaceRedaction),
-                    taskId = JobHelpers.ReturnTaskId(job, OutputFaceRedaction)
-                },
-                motionDetection = new
-                {
-                    assetId = JobHelpers.ReturnId(job, OutputMotion),
-                    taskId = JobHelpers.ReturnTaskId(job, OutputMotion)
-                },
-                summarization = new
-                {
-                    assetId = JobHelpers.ReturnId(job, OutputSummarization),
-                    taskId = JobHelpers.ReturnTaskId(job, OutputSummarization)
-                },
-                mesThumbnails = new
-                {
-                    assetId = JobHelpers.ReturnId(job, OutputMesThumbnails),
-                    taskId = JobHelpers.ReturnTaskId(job, OutputMesThumbnails)
-                },
-                videoAnnotation = new
-                {
-                    assetId = JobHelpers.ReturnId(job, OutputVideoAnnotation),
-                    taskId = JobHelpers.ReturnTaskId(job, OutputVideoAnnotation)
-                }
+                //mepw = new
+                //{
+                //    assetId = JobHelpers.ReturnId(job, OutputMEPW),
+                //    taskId = JobHelpers.ReturnTaskId(job, OutputMEPW)
+                //},
+                //indexV1 = new
+                //{
+                //    assetId = JobHelpers.ReturnId(job, OutputIndex1),
+                //    taskId = JobHelpers.ReturnTaskId(job, OutputIndex1),
+                //    language = (string)data.indexV1Language
+                //},
+                //indexV2 = new
+                //{
+                //    assetId = JobHelpers.ReturnId(job, OutputIndex2),
+                //    taskId = JobHelpers.ReturnTaskId(job, OutputIndex2),
+                //    language = (string)data.indexV2Language
+                //},
+                //ocr = new
+                //{
+                //    assetId = JobHelpers.ReturnId(job, OutputOCR),
+                //    taskId = JobHelpers.ReturnTaskId(job, OutputOCR)
+                //},
+                //faceDetection = new
+                //{
+                //    assetId = JobHelpers.ReturnId(job, OutputFaceDetection),
+                //    taskId = JobHelpers.ReturnTaskId(job, OutputFaceDetection)
+                //},
+                //faceRedaction = new
+                //{
+                //    assetId = JobHelpers.ReturnId(job, OutputFaceRedaction),
+                //    taskId = JobHelpers.ReturnTaskId(job, OutputFaceRedaction)
+                //},
+                //motionDetection = new
+                //{
+                //    assetId = JobHelpers.ReturnId(job, OutputMotion),
+                //    taskId = JobHelpers.ReturnTaskId(job, OutputMotion)
+                //},
+                //summarization = new
+                //{
+                //    assetId = JobHelpers.ReturnId(job, OutputSummarization),
+                //    taskId = JobHelpers.ReturnTaskId(job, OutputSummarization)
+                //},
+                //mesThumbnails = new
+                //{
+                //    assetId = JobHelpers.ReturnId(job, OutputMesThumbnails),
+                //    taskId = JobHelpers.ReturnTaskId(job, OutputMesThumbnails)
+                //},
+                //videoAnnotation = new
+                //{
+                //    assetId = JobHelpers.ReturnId(job, OutputVideoAnnotation),
+                //    taskId = JobHelpers.ReturnTaskId(job, OutputVideoAnnotation)
+                //}
             });
         }
     }
